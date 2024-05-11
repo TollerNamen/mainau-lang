@@ -1,0 +1,13 @@
+package mainau.compiler.parser;
+
+public enum NodeType {
+    GENERIC_STATEMENT,
+    VARIABLE_DECLARATION,
+    PROGRAM,
+    BINARY_EXPRESSION,
+    IDENTIFIER,
+    NUMERIC_LITERAL,
+    STRING_LITERAL,
+    CHAR_LITERAL,
+    NULL_LITERAL
+}
