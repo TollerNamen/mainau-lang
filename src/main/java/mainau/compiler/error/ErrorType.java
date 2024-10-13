@@ -6,5 +6,7 @@ public enum ErrorType {
     INVALID_ACTION,
     NOT_A_STATEMENT,
     NOT_FOUND,
-    FATAL
+    FATAL,
+    NOT_REPL_MODE,
+    UNASSIGNED_VARIABLE_QUERIED
 }

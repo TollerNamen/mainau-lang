@@ -43,8 +43,9 @@ public class TokenError implements Error {
 
     @Override
     public String createMessage() {
-        return "Error of type " + type.name() + " in File " + filePath + ":" +
+        return "\nError of type " + type.name() + " in File " + filePath + ":" +
                 "\nMessage: " + message +
+                "\n" +
                 "\n" + lineSnippet +
                 "\n" + createPointer() +
                 "\n";

@@ -50,11 +50,7 @@ public class ErrorStorage {
     }
 
     public void addError(Error error) {
-        if (error.type() == ErrorType.FATAL) {
-            printError(error);
-            Output.simplyLog(MessageType.FATAL, "Exiting now, Goodbye!");
-        }
-        errors.add(error);
+        addError(error, false);
     }
     public void addError(Error error, boolean fatalize) {
         if (error.type() == ErrorType.FATAL || fatalize) {

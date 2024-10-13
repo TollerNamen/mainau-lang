@@ -28,42 +28,31 @@ public class Output {
     }
 
     public void send(Message message) {
-        PrintStream printStream;
+        boolean isFatal = message.type() == MessageType.FATAL;
         String color, prefix;
+        PrintStream printStream = !isFatal ? System.out : System.err;
+
         switch (message.type()) {
-            case DEV:
-                printStream = System.out;
-                color = "fg_cyan";
-                break;
-            case DEBUG, SUGGEST:
-                printStream = System.out;
-                color = "fg_green";
-                break;
-            case WARNING:
-                printStream = System.out;
-                color = "fg_yellow";
-                break;
-            case ERROR:
-                printStream = System.out;
-                color = "fg_red";
-                break;
-            case FATAL:
-                printStream = System.err;
-                color = "fg_white,bg_red";
-                break;
-            case null, default:
+            case DEV -> color = "fg_cyan";
+            case DEBUG, SUGGEST -> color = "fg_green";
+            case WARNING -> color = "fg_yellow";
+            case ERROR -> color = "fg_red";
+            case FATAL -> color = "fg_white,bg_red";
+            case null, default -> {
                 send(new Message(MessageType.FATAL, "Could not determine the message type: " + message.type()));
                 return;
+            }
         }
+
         final int frontSpace, backSpace, rest;
         rest = 7 - message.type().name().length();
         frontSpace = rest / 2;
-        backSpace = rest / 2;
-        boolean isFatal = message.type() == MessageType.FATAL;
+        backSpace = frontSpace;
 
         prefix = !isFatal
                 ? "@|bold,fg_white [|@@|" + color + " " + " ".repeat(frontSpace) + message.type().name() + " ".repeat(backSpace) + "|@@|bold,fg_white ]|@ "
                 : "@|bold,fg_white,bg_red [" + " ".repeat(frontSpace) + message.type().name() + " ".repeat(backSpace) + "]|@ ";
+
         if (enableTimeDisplay)
             prefix = prefix + LocalDateTime.now().toString().replace("T", " T") + " - ";
 

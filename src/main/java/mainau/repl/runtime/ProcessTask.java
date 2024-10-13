@@ -14,30 +14,28 @@ public class ProcessTask {
     private final boolean replMode, verbose;
     private final Session session;
 
-    public ProcessTask(String sourceCode, String filePath, boolean replMode, boolean verbose) {
+    public ProcessTask(String sourceCode, String filePath, boolean replMode, boolean verbose, Session session) {
         this.errorStorage = new ErrorStorage(sourceCode, filePath);
         this.parser = new Parser(new Lexer(sourceCode), this);
         this.replMode = replMode;
         this.verbose = verbose;
-        session = new Session(null, this);
-        session.declareVariable("year", new ValuesImpl.NumberValue(2024));
+        this.session = session;
+        this.session.setTask(this);
     }
-    public ProcessTask(String sourceCode, String filePath) {
-        this(sourceCode, filePath, false, false);
+    public ProcessTask(String sourceCode, String filePath, Session session) {
+        this(sourceCode, filePath, false, false, session);
     }
 
     public void start() {
         ASTImpl.Program program = parser.parseModule();
         executeSendVerboseMessage(program.toString());
 
-        if (checkErrorStorage()) return;
-
         final ValuesImpl.RuntimeValue runtimeValue;
-        if (replMode) {
+        if (replMode && !checkErrorStorage()) {
             runtimeValue = Interpreter.evaluate(program, session);
-            executeSendVerboseMessage(runtimeValue.toString());
+            if (runtimeValue != null)
+                Output.simplyLog(MessageType.DEBUG, runtimeValue.toString());
         }
-        if (checkErrorStorage()) return;
     }
 
     private void executeSendVerboseMessage(String string) {
@@ -55,7 +53,7 @@ public class ProcessTask {
 
     public void insertError(Error error) {
         if (replMode)
-            errorStorage.addError(error, true);
+            errorStorage.addError(error);
         errorStorage.addError(error);
     }
 }

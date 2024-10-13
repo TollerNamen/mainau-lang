@@ -1,0 +1,32 @@
+obtain #jvm Arrays, List from java.util;
+
+[class MySuperClass]
+
+doStuff = void () -> {
+    Console.log("doing stuff");
+}
+
+[class MyClass super MySuperclass : Serializable]
+final String field;
+
+doStuff = void () -> {
+    Console.log(field);
+    Console.log(add(6, 7));
+    super.doStuff()
+}
+
+add:
+int (int a, int b) -> a + b,
+double (double a, double b) -> a + b;
+
+[interface MyClass.innerClass]
+
+default listToString:
+String (Object[] array) -> Arrays.toString(array);
+String (List<Object> list) -> listToString(list.toArray());
+
+[interface Serializable]
+
+main {
+    Console.log("Hello, World!");
+}
