@@ -1,11 +1,11 @@
-package mainau.compiler.lexer;
+package mainau.compiler.analysis.lexical;
 
 import java.util.Arrays;
 import java.util.Set;
 
 public enum TokenType {
     // Import
-    OBTAIN,
+    OBTAIN(true),
 
     // Type Declarations
     CLASS(true), INTERFACE(true), RECORD(true), ANNOTATION(true), ENUM(true),
@@ -20,6 +20,9 @@ public enum TokenType {
     // Primitive Types
     LONG(true), INT(true), CHAR(true), SHORT(true), BYTE(true), BOOLEAN(true),
     DOUBLE(true), FLOAT(true),
+
+    // Functions
+    FUN(true),
 
     VAR(true),
 
@@ -46,6 +49,7 @@ public enum TokenType {
     OPEN_BRACE, CLOSE_BRACE,
     OPEN_BRACKET, CLOSE_BRACKET,
     SEMI, COMMA, COLON, DOT,
+    LAMBDA,
 
     // Repl Stuff
     PRINT(true, true),
@@ -85,7 +89,11 @@ public enum TokenType {
     }
 
     public static Set<TokenType> getKeywordTypes() {
-        return Set.of(LONG, INT, CHAR, SHORT, BYTE, BOOLEAN, DOUBLE, FLOAT, VAR);
+        return Set.of(LONG, INT, CHAR, SHORT, BYTE, BOOLEAN, DOUBLE, FLOAT, VAR, FUN);
+    }
+
+    public static Set<TokenType> getPossibleFunctionReturnTypeTokenTypes() {
+        return Set.of(LONG, INT, CHAR, SHORT, BYTE, BOOLEAN, DOUBLE, FLOAT, IDENTIFIER);
     }
 
     public static Set<TokenType> getAttributeModifiers() {

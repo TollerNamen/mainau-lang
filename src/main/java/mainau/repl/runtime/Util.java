@@ -39,7 +39,7 @@ public class Util {
         for (char character : chars)
             switch (character) {
                 default -> builder.append(character);
-                case '"' -> {
+                case '"', '\'' -> {
                     disableSpaceTrimming = !disableSpaceTrimming;
                     builder.append(character);
                 }

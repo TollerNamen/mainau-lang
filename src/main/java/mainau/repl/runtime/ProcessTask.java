@@ -2,11 +2,11 @@ package mainau.repl.runtime;
 
 import mainau.compiler.error.Error;
 import mainau.compiler.error.ErrorStorage;
-import mainau.compiler.lexer.Lexer;
+import mainau.compiler.analysis.lexical.Lexer;
 import mainau.compiler.logging.MessageType;
 import mainau.compiler.logging.Output;
-import mainau.compiler.parser.ASTImpl;
-import mainau.compiler.parser.Parser;
+import mainau.compiler.ast.ASTImpl;
+import mainau.compiler.analysis.syntactic.Parser;
 
 public class ProcessTask {
     private final ErrorStorage errorStorage;
@@ -29,13 +29,14 @@ public class ProcessTask {
     public void start() {
         ASTImpl.Program program = parser.parseModule();
         executeSendVerboseMessage(program.toString());
-
+/*
         final ValuesImpl.RuntimeValue runtimeValue;
         if (replMode && !checkErrorStorage()) {
             runtimeValue = Interpreter.evaluate(program, session);
             if (runtimeValue != null)
                 Output.simplyLog(MessageType.DEBUG, runtimeValue.toString());
         }
+ */
     }
 
     private void executeSendVerboseMessage(String string) {

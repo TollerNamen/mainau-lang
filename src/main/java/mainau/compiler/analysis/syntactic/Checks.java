@@ -1,9 +1,9 @@
-package mainau.compiler.parser;
+package mainau.compiler.analysis.syntactic;
 
 import mainau.compiler.error.TokenError;
 import mainau.compiler.error.ErrorType;
-import mainau.compiler.lexer.Token;
-import mainau.compiler.lexer.TokenType;
+import mainau.compiler.analysis.lexical.Token;
+import mainau.compiler.analysis.lexical.TokenType;
 
 import java.util.Arrays;
 import java.util.Collection;

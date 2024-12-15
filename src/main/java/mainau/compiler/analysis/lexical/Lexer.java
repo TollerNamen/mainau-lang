@@ -1,10 +1,11 @@
-package mainau.compiler.lexer;
+package mainau.compiler.analysis.lexical;
 
 import mainau.compiler.logging.MessageType;
 import mainau.compiler.logging.Output;
 import java.util.Arrays;
 import java.util.List;
-import static mainau.compiler.lexer.TokenType.*;
+
+import static mainau.compiler.analysis.lexical.TokenType.*;
 
 public class Lexer {
     private final String source;
@@ -96,6 +97,8 @@ public class Lexer {
     }
     public Token next() {
         //Output.simplyLog(MessageType.DEBUG, currentToken.toString());
+        if (currentToken.type() == EOF)
+            throw new IllegalStateException("EOF is already reached");
         final Token previousToken = currentToken;
         Output.simplyLog(MessageType.DEV, previousToken.toString());
         currentToken = checkEOF() ? createEOF() : nextToken();
@@ -151,11 +154,16 @@ public class Lexer {
             // String and Character
             case '"', '\'' -> new Token(getLiteralValue(charValue).toString(), STRING, createPosition());
 
-            case '+', '-', '*', '/', '%', '^' -> {
+            case '+', '-', '*', '/', '%' -> {
                 final String operator = stringValue;
                 shift();
+
                 if (charValue == '=')
                     yield new Token(operator, BINARY_ASSIGN, createPosition());
+
+                else if (operator.equals("-") && charValue == '>')
+                    yield new Token("->", LAMBDA, createPosition());
+
                 unShift();
                 yield simpleTokenFromType(BINARY_OPERATOR);
             }

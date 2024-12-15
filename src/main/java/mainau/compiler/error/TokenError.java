@@ -1,6 +1,6 @@
 package mainau.compiler.error;
 
-import mainau.compiler.lexer.Token;
+import mainau.compiler.analysis.lexical.Token;
 
 public class TokenError implements Error {
     private final ErrorType type;

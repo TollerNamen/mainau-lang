@@ -2,28 +2,31 @@ package mainau.repl.runtime;
 
 import mainau.compiler.logging.MessageType;
 import mainau.compiler.logging.Output;
-import mainau.compiler.parser.AST;
-import mainau.compiler.parser.ASTImpl;
+import mainau.compiler.ast.AST;
+import mainau.compiler.ast.ASTImpl;
 
 public class Interpreter {
     public static ValuesImpl.RuntimeValue evaluate(final ASTImpl.Statement statement, final Session session) {
         if (statement == null)
             return null;
-        return switch (statement.type()) {
-            case NUMERIC_LITERAL -> new ValuesImpl.NumberValue(((ASTImpl.NumericLiteralExpression) statement).value());
-            case NULL_LITERAL -> new ValuesImpl.NullValue();
-            case BINARY_EXPRESSION -> evaluateBinaryExpression((ASTImpl.BinaryExpression) statement, session);
-            case PROGRAM -> evaluateProgram((ASTImpl.Program) statement, session);
-            case IDENTIFIER -> session.lookUpVariable(((ASTImpl.IdentifierLiteralExpression) statement).symbol());
-            case VARIABLE_DECLARATION -> evaluateVariableDeclaration((ASTImpl.VariableDeclarationStatement) statement, session);
+        return null;
+        /*
+        return switch (statement.getClass()) {
+            case ASTImpl.NumericLiteralExpression.class -> new ValuesImpl.NumberValue(((ASTImpl.NumericLiteralExpression) statement).value());
+            case ASTImpl.NullLiteralExpression.class -> new ValuesImpl.NullValue();
+            case ASTImpl.BinaryExpression.class -> evaluateBinaryExpression((ASTImpl.BinaryExpression) statement, session);
+            case ASTImpl.Program.class -> evaluateProgram((ASTImpl.Program) statement, session);
+            case ASTImpl.IdentifierLiteralExpression.class -> session.lookUpVariable(((ASTImpl.IdentifierLiteralExpression) statement).symbol());
+            case ASTImpl.VariableDeclarationStatement.class -> evaluateVariableDeclaration((ASTImpl.VariableDeclarationStatement) statement, session);
             default -> {
                 Output.simplyLog(MessageType.FATAL,
-                        "The following Statement type is not ready for interpretation: " + statement.type() +
+                        "The following Statement type is not ready for interpretation: " + statement.getClass() +
                                 "\nExiting now, Goodbye!");
                 System.exit(1);
                 yield null;
             }
         };
+         */
     }
 
     private static ValuesImpl.RuntimeValue evaluateProgram(final ASTImpl.Program program, final Session session) {

@@ -2,28 +2,36 @@ obtain #jvm Arrays, List from java.util;
 
 [class MySuperClass]
 
-doStuff = void () -> {
+fun doStuff = void () -> {
     Console.log("doing stuff");
 }
 
-[class MyClass super MySuperclass : Serializable]
+[class MyClass super MySuperclass : Serializable
 final String field;
 
-doStuff = void () -> {
+init {
+    withString = (String field) -> this.field = field;
+    default = () -> field = "Hello";
+}
+
+fun doStuff = void () -> {
     Console.log(field);
     Console.log(add(6, 7));
     super.doStuff()
 }
 
-add:
-int (int a, int b) -> a + b,
-double (double a, double b) -> a + b;
+fun add {
+    int (int a, int b) -> a + b,
+    double (double a, double b) -> a + b;
+}
+]
 
 [interface MyClass.innerClass]
 
-default listToString:
-String (Object[] array) -> Arrays.toString(array);
-String (List<Object> list) -> listToString(list.toArray());
+default fun listToString {
+    default String (Object[] array) -> Arrays.toString(array);
+    String (List<Object> list) -> default(list.toArray());
+}
 
 [interface Serializable]
 
