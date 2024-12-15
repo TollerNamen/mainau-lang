@@ -170,7 +170,9 @@ public class Parser {
 
         check(LAMBDA, lexer.next());
 
-        var body = token().type() == OPEN_BRACE
+        boolean isBlock = token().type() == OPEN_BRACE;
+
+        var body = isBlock
                 ? parseModule(CLOSE_BRACE).body()
                 : new AST.Statement[]{parseStatement()};
 
@@ -179,7 +181,8 @@ public class Parser {
                 identifier,
                 body,
                 modifiers,
-                arguments
+                arguments,
+                isBlock
         );
     }
 

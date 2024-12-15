@@ -97,20 +97,23 @@ public interface ASTImpl extends AST {
         final private AST.Statement[] body;
         final private Set<TokenType> modifiers;
         final private Set<AST.FunctionDeclarationStatement.ParameterExpression> arguments;
+        final private boolean isBlock;
 
         public FunctionDeclarationStatement(
                 AST.Expression returnType,
                 String identifierSymbol,
                 AST.Statement[] body,
                 Set<TokenType> modifiers,
-                Set<AST.FunctionDeclarationStatement.ParameterExpression> arguments
+                Set<AST.FunctionDeclarationStatement.ParameterExpression> arguments,
+                boolean isBlock
         ) {
-            super((Statement[]) body);
+            super(body);
             this.returnType = returnType;
             this.identifierSymbol = identifierSymbol;
-            this.body = (Statement[]) body;
+            this.body = body;
             this.modifiers = modifiers;
             this.arguments = arguments;
+            this.isBlock = isBlock;
         }
 
         @Override public AST.Expression returnType() { return returnType; }
@@ -118,6 +121,7 @@ public interface ASTImpl extends AST {
         @Override public AST.Statement[] body() { return body; }
         @Override public Set<TokenType> modifiers() { return modifiers; }
         @Override public Set<AST.FunctionDeclarationStatement.ParameterExpression> arguments() { return arguments; }
+        @Override public boolean isBlock() { return isBlock; }
 
         @Override
         public String toString() {

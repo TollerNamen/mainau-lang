@@ -29,15 +29,12 @@ public interface AST {
         String identifierSymbol();
         Set<TokenType> modifiers();
         Set<ParameterExpression> arguments();
+        boolean isBlock();
 
         interface ParameterExpression extends Expression {
             Expression variableType();
             String identifierSymbol();
             boolean isFinal();
-        }
-        enum BodyType {
-            BLOCK,
-            STATEMENT
         }
     }
 
