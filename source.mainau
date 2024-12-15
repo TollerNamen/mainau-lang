@@ -24,6 +24,10 @@ fun add {
     int (int a, int b) -> a + b,
     double (double a, double b) -> a + b;
 }
+
+fun curryAdd {
+    int (int a) -> int (int b) -> a + b;
+}
 ]
 
 [interface MyClass.innerClass]
